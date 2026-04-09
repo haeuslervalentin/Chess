@@ -23,14 +23,14 @@ public class Board
     public override string ToString()
     {
         StringBuilder sb = new();
-        int counter = 0;
+    
         for(int i = 0; i < 8; i++)
         {
             sb.AppendLine("  +---+---+---+---+---+---+---+---+");
             for(int j = 0; j < 8; j++)
             {
-                sb.Append($"  | {board[i,j].PieceType}")
-                counter++;
+                char symbol = getSymbol(board[i,j], (i+j) %2 != 0);
+                sb.Append($"  | {symbol}");   
             }
         }
         sb.AppendLine("  +---+---+---+---+---+---+---+---+");
@@ -54,7 +54,7 @@ public class Board
         ChessFigure.PieceType.Pawn   => 'P',
         _ => '?'
     };
-    
+
     return figure.Color == ChessFigure.PieceColor.White 
            ? char.ToUpper(symbol) 
            : char.ToLower(symbol);

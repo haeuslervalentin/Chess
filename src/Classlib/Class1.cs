@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Security.Cryptography;
+using System.Text;
 namespace Classlib;
 
 public class Board
@@ -11,6 +12,10 @@ public class Board
         board[row, col] = figure;
     }
 
+    public Board()
+    {
+        Build();
+    }
     public ChessFigure? GetFigure(int row, int col)
     {
         if(IsValide(row,col))
@@ -30,16 +35,45 @@ public class Board
             for(int j = 0; j < 8; j++)
             {
                 char symbol = getSymbol(board[i,j], (i+j) %2 != 0);
-                sb.Append($"  | {symbol}");   
+                sb.Append($" | {symbol}");   
             }
+            sb.AppendLine(" |");
         }
         sb.AppendLine("  +---+---+---+---+---+---+---+---+");
         return sb.ToString();
     }
 
+    public void Build()
+    {
+
+        SetupBackrow(0, ChessFigure.PieceColor.White);
+        SetupBackrow(7, ChessFigure.PieceColor.Black);
+
+        for (int col = 0; col < 8; col++)
+        {
+            board[1, col] = new Pawn(ChessFigure.PieceColor.White);
+            board[6, col] = new Pawn(ChessFigure.PieceColor.Black);
+        }
+    }
+
+    private void SetupBackrow(int row, ChessFigure.PieceColor color)
+    {
+        board[row, 0] = new Rook(color);
+        board[row, 7] = new Rook(color);
+        
+        board[row, 1] = new Knight(color);
+        board[row, 6] = new Knight(color);
+        
+        board[row, 2] = new Bishop(color);
+        board[row, 5] = new Bishop(color);
+        
+        board[row, 3] = new Queen(color);
+        board[row, 4] = new King(color);
+    }
+
     private char getSymbol(ChessFigure? figure, bool isDarkField)
     {
-         if (figure == null)
+        if (figure == null)
         {
             return isDarkField ? '#' : ' '; 
         }
@@ -71,6 +105,14 @@ public class Board
             throw new ArgumentException($"Col must be greater than ZERO and smaller than 8. Input: {col}");
         }
         return true;
+    }
+
+    public List<int> GetMoves(ChessFigure figure, ChessFigure.PieceColor color)
+    {
+        List<int> moves = new();
+
+
+
     }
 }
 
@@ -105,10 +147,9 @@ public class King : ChessFigure
 {
     public King(PieceColor color) : base(color, PieceType.King)
     {
-        
     }
-}
 
+}
 public class Queen : ChessFigure
 {
     public Queen(PieceColor color) : base(color, PieceType.Queen)

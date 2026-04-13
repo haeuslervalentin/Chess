@@ -128,7 +128,7 @@ public class Board
             throw new ArgumentException($"There is no figure to be moved {currentPosRow} {currentPosCol}");
         }
 
-        var availableMoves = PieceToMove.GetAvailableMoves(this);
+        var availableMoves = PieceToMove.GetAvailableMoves(this,currentPosRow, currentPosCol);
         if(availableMoves.Contains((goalPosRow, goalPosCol)))
         {
             DeleteFigure(currentPosRow, currentPosCol);
@@ -173,7 +173,7 @@ public abstract class ChessFigure
         Color = color;
         Type = type;
     }
-    public abstract List<(int row, int col)> GetAvailableMoves(Board board);
+    public abstract List<(int row, int col)> GetAvailableMoves(Board board,int currentRow, int currentCol);
 }
 
 public class King : ChessFigure
@@ -183,23 +183,22 @@ public class King : ChessFigure
         var Color = color;
     }
 
-    private static readonly (int x, int y)[] _moveOffsets = new[]
+    private static readonly (int row, int col)[] _moveOffsets = new[]
     {
         (0, 1), (0, -1), (1, 0), (-1, 0), 
         (1, 1), (1, -1), (-1, 1), (-1, -1)
     };
 
-    public override List<(int row, int col)> GetAvailableMoves(Board board)
+    public override List<(int row, int col)> GetAvailableMoves(Board board,int currentRow, int currentCol)
     {
         var moves = new List<(int row, int col)>();
-        var currentPos = board.GetExactPos(this.Type, this.Color);
 
-        if(currentPos == null) return moves;
+        if(board.GetFigure(currentRow,currentCol) == null) return moves;
 
         foreach(var offset in _moveOffsets)
         {
-            int targetRow = currentPos.Value.row + offset.row;
-            int targetCol = currentPos.Value.col + offset.col;
+            int targetRow = currentRow + offset.row;
+            int targetCol = currentCol + offset.col;
 
             if(!board.IsInside(targetRow,targetCol))
             {
@@ -223,18 +222,75 @@ public class Queen : ChessFigure
     {
         
     }
-}
-
-public class Rook : ChessFigure
-{
-    private static readonly (int x, int y)[] _moveOffsets = new[]
+    private static readonly (int row, int col)[] _moveOffsets = new[]
     {
         (0, 1), (0, -1), (1, 0), (-1, 0), 
         (1, 1), (1, -1), (-1, 1), (-1, -1)
     };
+
+    public override List<(int row, int col)> GetAvailableMoves(Board board,int currentRow, int currentCol)
+    {
+        var moves = new List<(int row, int col)>();
+
+        if(board.GetFigure(currentRow,currentCol) == null) return moves;
+
+        foreach(var offset in _moveOffsets)
+        {
+            int targetRow = currentRow + offset.row;
+            int targetCol = currentCol + offset.col;
+
+            if(!board.IsInside(targetRow,targetCol))
+            {
+                continue;
+            }
+
+            var targetPiece = board.GetFigure(targetRow, targetCol);
+                
+            if (targetPiece == null || targetPiece.Color != this.Color)
+            {
+                moves.Add((targetRow,targetCol));
+            }
+        }
+        return moves;
+    }
+}
+
+public class Rook : ChessFigure
+{
     public Rook(PieceColor color) : base(color, PieceType.Rook)
     {
         
+    }
+    private static readonly (int row, int col)[] _moveOffsets = new[]
+    {
+        (0, 1), (0, -1), (1, 0), (-1, 0), 
+        (1, 1), (1, -1), (-1, 1), (-1, -1)
+    };
+
+    public override List<(int row, int col)> GetAvailableMoves(Board board,int currentRow, int currentCol)
+    {
+        var moves = new List<(int row, int col)>();
+
+        if(board.GetFigure(currentRow,currentCol) == null) return moves;
+
+        foreach(var offset in _moveOffsets)
+        {
+            int targetRow = currentRow + offset.row;
+            int targetCol = currentCol + offset.col;
+
+            if(!board.IsInside(targetRow,targetCol))
+            {
+                continue;
+            }
+
+            var targetPiece = board.GetFigure(targetRow, targetCol);
+                
+            if (targetPiece == null || targetPiece.Color != this.Color)
+            {
+                moves.Add((targetRow,targetCol));
+            }
+        }
+        return moves;
     }
 }
 
@@ -244,11 +300,42 @@ public class Bishop : ChessFigure
     {
         
     }
+    private static readonly (int row, int col)[] _moveOffsets = new[]
+    {
+        (0, 1), (0, -1), (1, 0), (-1, 0), 
+        (1, 1), (1, -1), (-1, 1), (-1, -1)
+    };
+
+    public override List<(int row, int col)> GetAvailableMoves(Board board,int currentRow, int currentCol)
+    {
+        var moves = new List<(int row, int col)>();
+
+        if(board.GetFigure(currentRow,currentCol) == null) return moves;
+
+        foreach(var offset in _moveOffsets)
+        {
+            int targetRow = currentRow + offset.row;
+            int targetCol = currentCol + offset.col;
+
+            if(!board.IsInside(targetRow,targetCol))
+            {
+                continue;
+            }
+
+            var targetPiece = board.GetFigure(targetRow, targetCol);
+                
+            if (targetPiece == null || targetPiece.Color != this.Color)
+            {
+                moves.Add((targetRow,targetCol));
+            }
+        }
+        return moves;
+    }
 }
 
 public class Knight : ChessFigure
 {
-    private static readonly (int x, int y)[] _moveOffsets = new[]
+    private static readonly (int row, int col)[] _moveOffsets = new[]
     {
         (2, 1),   (2, -1),  
         (-2, 1),  (-2, -1), 
@@ -256,17 +343,16 @@ public class Knight : ChessFigure
         (-1, 2),  (-1, -2)
     };
 
-    public override List<(int row, int col)> GetAvailableMoves(Board board)
+    public override List<(int row, int col)> GetAvailableMoves(Board board,int currentRow, int currentCol)
     {
         var moves = new List<(int row, int col)>();
-        var currentPos = board.GetExactPos(this.Type, this.Color);
 
-        if(currentPos == null) return moves;
+        if(board.GetFigure(currentRow,currentCol) == null) return moves;
 
         foreach(var offset in _moveOffsets)
         {
-            int targetRow = currentPos.Value.row + offset.row;
-            int targetCol = currentPos.Value.col + offset.col;
+            int targetRow = currentRow + offset.row;
+            int targetCol = currentCol + offset.col;
 
             if(!board.IsInside(targetRow, targetCol))
             {
@@ -296,18 +382,17 @@ public class Pawn : ChessFigure
         
     }
 
-    public override List<(int row, int col)> GetAvailableMoves(Board board)
+    public override List<(int row, int col)> GetAvailableMoves(Board board,int currentRow, int currentCol)
     {
         var moves = new List<(int row, int col)>();
-        var currentPos = board.GetExactPos(this.Type, this.Color);
 
-        if(currentPos == null) return moves;
+        if(board.GetFigure(currentRow,currentCol) == null) return moves;
 
         var direction = this.Color == ChessFigure.PieceColor.White ? -1 : 1;
 
         
-        int targetRow = currentPos.Value.row + direction;
-        int targetCol = currentPos.Value.col + direction;
+        int targetRow = currentRow + direction;
+            int targetCol = currentCol;
 
         if(!board.IsInside(targetRow, targetCol))
         {
@@ -320,6 +405,8 @@ public class Pawn : ChessFigure
         {
             moves.Add((targetRow, targetCol));
         }
+        if(!board.IsInside(targetRow, targetCol-1)) return moves;
+        if(!board.IsInside(targetRow, targetCol+1)) return moves;
         if(board.GetFigure(targetRow,targetCol-1) != null) moves.Add((targetRow, targetCol-1));
         if(board.GetFigure(targetRow,targetCol+1) != null) moves.Add((targetRow, targetCol+1));
     

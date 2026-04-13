@@ -6,6 +6,7 @@ class Program
     {
         Board game = new();
         Console.WriteLine(game);
+        game.Move(7,0, 6,0);
         return 0;
     }
 }

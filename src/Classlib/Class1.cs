@@ -227,6 +227,11 @@ public class Queen : ChessFigure
 
 public class Rook : ChessFigure
 {
+    private static readonly (int x, int y)[] _moveOffsets = new[]
+    {
+        (0, 1), (0, -1), (1, 0), (-1, 0), 
+        (1, 1), (1, -1), (-1, 1), (-1, -1)
+    };
     public Rook(PieceColor color) : base(color, PieceType.Rook)
     {
         
@@ -243,6 +248,41 @@ public class Bishop : ChessFigure
 
 public class Knight : ChessFigure
 {
+    private static readonly (int x, int y)[] _moveOffsets = new[]
+    {
+        (2, 1),   (2, -1),  
+        (-2, 1),  (-2, -1), 
+        (1, 2),   (1, -2),  
+        (-1, 2),  (-1, -2)
+    };
+
+    public override List<(int row, int col)> GetAvailableMoves(Board board)
+    {
+        var moves = new List<(int row, int col)>();
+        var currentPos = board.GetExactPos(this.Type, this.Color);
+
+        if(currentPos == null) return moves;
+
+        foreach(var offset in _moveOffsets)
+        {
+            int targetRow = currentPos.Value.row + offset.row;
+            int targetCol = currentPos.Value.col + offset.col;
+
+            if(!board.IsInside(targetRow, targetCol))
+            {
+                continue;
+            }
+
+            var targetPiece = board.GetFigure(targetRow, targetCol);
+
+            if(targetPiece == null || targetPiece.Color != this.Color)
+            {
+                moves.Add((targetRow, targetCol));
+            }
+        }
+        return moves;
+    }
+
     public Knight(PieceColor color) : base(color, PieceType.Knight)
     {
         
@@ -255,47 +295,35 @@ public class Pawn : ChessFigure
     {
         
     }
-}
 
-
-
-/*
-public class King : ChessFigure
-{
-    public King(PieceColor color) : base(color, PieceType.King) { }
-
-    private static readonly (int row, int col)[] _moveOffsets = new[]
-    {
-        (0, 1), (0, -1), (1, 0), (-1, 0), 
-        (1, 1), (1, -1), (-1, 1), (-1, -1)
-    };
-
-    // Nutzt Tuple für die Koordinaten: (row, col)
-    public List<(int row, int col)> GetAvailableMoves(Board board)
+    public override List<(int row, int col)> GetAvailableMoves(Board board)
     {
         var moves = new List<(int row, int col)>();
-        
-        // Finde die eigene Position auf dem Brett
         var currentPos = board.GetExactPos(this.Type, this.Color);
-        if (currentPos == null) return moves;
 
-        foreach (var offset in _moveOffsets)
+        if(currentPos == null) return moves;
+
+        var direction = this.Color == ChessFigure.PieceColor.White ? -1 : 1;
+
+        
+        int targetRow = currentPos.Value.row + direction;
+        int targetCol = currentPos.Value.col + direction;
+
+        if(!board.IsInside(targetRow, targetCol))
         {
-            int targetRow = currentPos.Value.row + offset.row;
-            int targetCol = currentPos.Value.col + offset.col;
-
-            if (board.IsInside(targetRow, targetCol))
-            {
-                var targetPiece = board.GetFigure(targetRow, targetCol);
-                
-                // Ein Zug ist gültig, wenn das Feld leer ist oder ein Gegner dort steht
-                if (targetPiece == null || targetPiece.Color != this.Color)
-                {
-                    moves.Add((targetRow, targetCol));
-                }
-            }
+            return moves;
         }
+
+        var targetPiece = board.GetFigure(targetRow, targetCol);
+
+        if(targetPiece == null)
+        {
+            moves.Add((targetRow, targetCol));
+        }
+        if(board.GetFigure(targetRow,targetCol-1) != null) moves.Add((targetRow, targetCol-1));
+        if(board.GetFigure(targetRow,targetCol+1) != null) moves.Add((targetRow, targetCol+1));
+    
         return moves;
     }
+
 }
-*/

@@ -46,13 +46,13 @@ public class Board
     public void Build()
     {
 
-        SetupBackrow(0, ChessFigure.PieceColor.White);
-        SetupBackrow(7, ChessFigure.PieceColor.Black);
+        SetupBackrow(7, ChessFigure.PieceColor.White);
+        SetupBackrow(0, ChessFigure.PieceColor.Black);
 
         for (int col = 0; col < 8; col++)
         {
-            board[1, col] = new Pawn(ChessFigure.PieceColor.White);
-            board[6, col] = new Pawn(ChessFigure.PieceColor.Black);
+            board[6, col] = new Pawn(ChessFigure.PieceColor.White);
+            board[1, col] = new Pawn(ChessFigure.PieceColor.Black);
         }
     }
 
@@ -102,7 +102,7 @@ public class Board
         }
         return true;
     }
-
+/*
     public (int row, int col)? GetExactPos(ChessFigure.PieceType wanted, ChessFigure.PieceColor color)
     {
         for(int i = 0; i < 8; i++)
@@ -116,7 +116,7 @@ public class Board
             }
         }
         return null;
-    }
+    }*/
     public bool IsInside(int row, int col) => row >= 0 && row < 8 && col >= 0 && col < 8;
 
     public void Move(int currentPosRow, int currentPosCol, int goalPosRow, int goalPosCol)
@@ -407,8 +407,8 @@ public class Pawn : ChessFigure
         }
         if(!board.IsInside(targetRow, targetCol-1)) return moves;
         if(!board.IsInside(targetRow, targetCol+1)) return moves;
-        if(board.GetFigure(targetRow,targetCol-1) != null) moves.Add((targetRow, targetCol-1));
-        if(board.GetFigure(targetRow,targetCol+1) != null) moves.Add((targetRow, targetCol+1));
+        if(board.GetFigure(targetRow,targetCol-1) != null && board.GetFigure(targetRow,targetCol-1).Color != this.Color) moves.Add((targetRow, targetCol-1));
+        if(board.GetFigure(targetRow,targetCol+1) != null && board.GetFigure(targetRow, targetCol+1).Color != this.Color) moves.Add((targetRow, targetCol+1));
     
         return moves;
     }

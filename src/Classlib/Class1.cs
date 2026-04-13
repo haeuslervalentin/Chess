@@ -122,7 +122,29 @@ public class Board
     public void Move(int currentPosRow, int currentPosCol, int goalPosRow, int goalPosCol)
     {
         var PieceToMove = GetFigure(currentPosRow, currentPosCol);
-        var availableMoves = PieceToMove.GetAvailableMoves(board);
+
+        if(PieceToMove == null)
+        {
+            throw new ArgumentException($"There is no figure to be moved {currentPosRow} {currentPosCol}");
+        }
+
+        var availableMoves = PieceToMove.GetAvailableMoves(this);
+        if(availableMoves.Contains((goalPosRow, goalPosCol)))
+        {
+            DeleteFigure(currentPosRow, currentPosCol);
+            SetFigure(goalPosRow, goalPosCol, PieceToMove);
+        }
+    }
+
+    public void DeleteFigure(int row, int col)
+    {
+        if(IsInside(row,col))
+        {
+            board[row,col] = null;
+            return;
+        }
+
+        throw new ArgumentException("There is no figure to be deleted!");
     }
 }
 

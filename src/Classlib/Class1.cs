@@ -96,27 +96,37 @@ public class Board
 
     private bool IsValide(int row, int col)
     {
-        if(!(row >= 0 && row < 8))
+        if(!IsInside(row,col))
         {
-            throw new ArgumentException($"Row must be greater than ZERO and smaller than 8. Input: {row}");
-        }
-        if(!(col >= 0 && col < 8))
-        {
-            throw new ArgumentException($"Col must be greater than ZERO and smaller than 8. Input: {col}");
+            throw new ArgumentException($"Invalid coordinates: {row} {col}");
         }
         return true;
     }
 
-    public List<int> GetMoves(ChessFigure figure, ChessFigure.PieceColor color)
+    public (int row, int col)? GetExactPos(ChessFigure.PieceType wanted, ChessFigure.PieceColor color)
     {
-        List<int> moves = new();
+        for(int i = 0; i < 8; i++)
+        {
+            for(int j = 0; j < 8; j++)
+            {
+                if(board[i,j] != null && board[i,j].Type == wanted && board[i,j].Color == color)
+                {
+                    return (i,j);
+                }
+            }
+        }
+        return null;
+    }
+    public bool IsInside(int row, int col) => row >= 0 && row < 8 && col >= 0 && col < 8;
 
-
-
+    public void Move(int currentPosRow, int currentPosCol, int goalPosRow, int goalPosCol)
+    {
+        var PieceToMove = GetFigure(currentPosRow, currentPosCol);
+        var availableMoves = PieceToMove.GetAvailableMoves(board);
     }
 }
 
-public class ChessFigure
+public abstract class ChessFigure
 {
     public PieceColor Color {get;}
     public PieceType Type {get;}
@@ -141,12 +151,47 @@ public class ChessFigure
         Color = color;
         Type = type;
     }
+    public abstract List<(int row, int col)> GetAvailableMoves(Board board);
 }
 
 public class King : ChessFigure
 {
     public King(PieceColor color) : base(color, PieceType.King)
     {
+        var Color = color;
+    }
+
+    private static readonly (int x, int y)[] _moveOffsets = new[]
+    {
+        (0, 1), (0, -1), (1, 0), (-1, 0), 
+        (1, 1), (1, -1), (-1, 1), (-1, -1)
+    };
+
+    public override List<(int row, int col)> GetAvailableMoves(Board board)
+    {
+        var moves = new List<(int row, int col)>();
+        var currentPos = board.GetExactPos(this.Type, this.Color);
+
+        if(currentPos == null) return moves;
+
+        foreach(var offset in _moveOffsets)
+        {
+            int targetRow = currentPos.Value.row + offset.row;
+            int targetCol = currentPos.Value.col + offset.col;
+
+            if(!board.IsInside(targetRow,targetCol))
+            {
+                continue;
+            }
+
+            var targetPiece = board.GetFigure(targetRow, targetCol);
+                
+            if (targetPiece == null || targetPiece.Color != this.Color)
+            {
+                moves.Add((targetRow,targetCol));
+            }
+        }
+        return moves;
     }
 
 }
@@ -189,3 +234,46 @@ public class Pawn : ChessFigure
         
     }
 }
+
+
+
+/*
+public class King : ChessFigure
+{
+    public King(PieceColor color) : base(color, PieceType.King) { }
+
+    private static readonly (int row, int col)[] _moveOffsets = new[]
+    {
+        (0, 1), (0, -1), (1, 0), (-1, 0), 
+        (1, 1), (1, -1), (-1, 1), (-1, -1)
+    };
+
+    // Nutzt Tuple für die Koordinaten: (row, col)
+    public List<(int row, int col)> GetAvailableMoves(Board board)
+    {
+        var moves = new List<(int row, int col)>();
+        
+        // Finde die eigene Position auf dem Brett
+        var currentPos = board.GetExactPos(this.Type, this.Color);
+        if (currentPos == null) return moves;
+
+        foreach (var offset in _moveOffsets)
+        {
+            int targetRow = currentPos.Value.row + offset.row;
+            int targetCol = currentPos.Value.col + offset.col;
+
+            if (board.IsInside(targetRow, targetCol))
+            {
+                var targetPiece = board.GetFigure(targetRow, targetCol);
+                
+                // Ein Zug ist gültig, wenn das Feld leer ist oder ein Gegner dort steht
+                if (targetPiece == null || targetPiece.Color != this.Color)
+                {
+                    moves.Add((targetRow, targetCol));
+                }
+            }
+        }
+        return moves;
+    }
+}
+*/

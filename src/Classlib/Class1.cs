@@ -133,6 +133,7 @@ public class Board
         {
             DeleteFigure(currentPosRow, currentPosCol);
             SetFigure(goalPosRow, goalPosCol, PieceToMove);
+            PieceToMove.isMoved = true;
         }
     }
 
@@ -150,6 +151,7 @@ public class Board
 
 public abstract class ChessFigure
 {
+    public bool isMoved = false;
     public PieceColor Color {get;}
     public PieceType Type {get;}
     public enum PieceColor 
@@ -234,21 +236,29 @@ public class Queen : ChessFigure
 
         if(board.GetFigure(currentRow,currentCol) == null) return moves;
 
-        foreach(var offset in _moveOffsets)
+        foreach(var (dr, dc) in _moveOffsets)
         {
-            int targetRow = currentRow + offset.row;
-            int targetCol = currentCol + offset.col;
+            int targetRow = currentRow + dr;
+            int targetCol = currentCol + dc;
 
-            if(!board.IsInside(targetRow,targetCol))
+            while(board.IsInside(targetRow, targetCol))
             {
-                continue;
-            }
+                var targetField = board.GetFigure(targetRow,targetCol);
 
-            var targetPiece = board.GetFigure(targetRow, targetCol);
-                
-            if (targetPiece == null || targetPiece.Color != this.Color)
-            {
-                moves.Add((targetRow,targetCol));
+                if(targetField == null)
+                {
+                    moves.Add((targetRow, targetCol));
+                }
+                else
+                {
+                    if(targetField.Color != this.Color)
+                    {
+                        moves.Add((targetRow,targetCol));
+                    }
+                    break;
+                }
+                targetRow += dr;
+                targetCol += dc;
             }
         }
         return moves;
@@ -263,8 +273,7 @@ public class Rook : ChessFigure
     }
     private static readonly (int row, int col)[] _moveOffsets = new[]
     {
-        (0, 1), (0, -1), (1, 0), (-1, 0), 
-        (1, 1), (1, -1), (-1, 1), (-1, -1)
+        (1, 0), (-1, 0),(0, 1),(0, -1) 
     };
 
     public override List<(int row, int col)> GetAvailableMoves(Board board,int currentRow, int currentCol)
@@ -273,21 +282,29 @@ public class Rook : ChessFigure
 
         if(board.GetFigure(currentRow,currentCol) == null) return moves;
 
-        foreach(var offset in _moveOffsets)
+        foreach(var (dr, dc) in _moveOffsets)
         {
-            int targetRow = currentRow + offset.row;
-            int targetCol = currentCol + offset.col;
+            int targetRow = currentRow + dr;
+            int targetCol = currentCol + dc;
 
-            if(!board.IsInside(targetRow,targetCol))
+            while(board.IsInside(targetRow, targetCol))
             {
-                continue;
-            }
+                var targetField = board.GetFigure(targetRow,targetCol);
 
-            var targetPiece = board.GetFigure(targetRow, targetCol);
-                
-            if (targetPiece == null || targetPiece.Color != this.Color)
-            {
-                moves.Add((targetRow,targetCol));
+                if(targetField == null)
+                {
+                    moves.Add((targetRow, targetCol));
+                }
+                else
+                {
+                    if(targetField.Color != this.Color)
+                    {
+                        moves.Add((targetRow,targetCol));
+                    }
+                    break;
+                }
+                targetRow += dr;
+                targetCol += dc;
             }
         }
         return moves;
@@ -312,21 +329,29 @@ public class Bishop : ChessFigure
 
         if(board.GetFigure(currentRow,currentCol) == null) return moves;
 
-        foreach(var offset in _moveOffsets)
+        foreach(var (dr, dc) in _moveOffsets)
         {
-            int targetRow = currentRow + offset.row;
-            int targetCol = currentCol + offset.col;
+            int targetRow = currentRow + dr;
+            int targetCol = currentCol + dc;
 
-            if(!board.IsInside(targetRow,targetCol))
+            while(board.IsInside(targetRow, targetCol))
             {
-                continue;
-            }
+                var targetField = board.GetFigure(targetRow,targetCol);
 
-            var targetPiece = board.GetFigure(targetRow, targetCol);
-                
-            if (targetPiece == null || targetPiece.Color != this.Color)
-            {
-                moves.Add((targetRow,targetCol));
+                if(targetField == null)
+                {
+                    moves.Add((targetRow, targetCol));
+                }
+                else
+                {
+                    if(targetField.Color != this.Color)
+                    {
+                        moves.Add((targetRow,targetCol));
+                    }
+                    break;
+                }
+                targetRow += dr;
+                targetCol += dc;
             }
         }
         return moves;
@@ -392,7 +417,9 @@ public class Pawn : ChessFigure
 
         
         int targetRow = currentRow + direction;
-            int targetCol = currentCol;
+        int targetCol = currentCol;
+
+        // 2 steps with isMoved ??
 
         if(!board.IsInside(targetRow, targetCol))
         {

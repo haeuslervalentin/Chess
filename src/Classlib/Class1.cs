@@ -137,6 +137,45 @@ public class Board
         }
     }
 
+    public string ShowMoves(int currentPosRow, int currentPosCol, List<(int row, int col)> moves)
+    {
+        StringBuilder sb = new();
+
+        for (int i = 0; i < 8; i++)
+        {
+            sb.AppendLine("  +---+---+---+---+---+---+---+---+");
+            for (int j = 0; j < 8; j++)
+            {
+
+                char symbol;
+
+                if (moves.Contains((i, j)))
+
+                {
+
+                    symbol = '+';
+
+                }
+
+                else
+
+                {
+
+                    symbol = getSymbol(board[i, j], (i + j) % 2 != 0);
+
+                }
+
+                sb.Append($" | {symbol}");
+
+            }
+
+            sb.AppendLine(" |");
+
+        }
+        sb.AppendLine("  +---+---+---+---+---+---+---+---+");
+        return sb.ToString();
+    }
+
     public void DeleteFigure(int row, int col)
     {
         if(IsInside(row,col))

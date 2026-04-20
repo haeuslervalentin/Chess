@@ -319,8 +319,7 @@ public class Bishop : ChessFigure
     }
     private static readonly (int row, int col)[] _moveOffsets = new[]
     {
-        (0, 1), (0, -1), (1, 0), (-1, 0), 
-        (1, 1), (1, -1), (-1, 1), (-1, -1)
+        (1, 1), (-1, -1), (1, -1), (-1, 1)
     };
 
     public override List<(int row, int col)> GetAvailableMoves(Board board,int currentRow, int currentCol)

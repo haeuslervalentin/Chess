@@ -1,7 +1,7 @@
 ﻿namespace Game;
 using Classlib;
 
-public class Game
+public class GameClass
 {
     public Board GameField {get;set;} = new ();
     public ChessFigure.PieceColor CurrentTurn {get; private set;} = ChessFigure.PieceColor.White;
@@ -21,11 +21,16 @@ public class Game
     {
         GameField.IsValide(start_row, start_col);
         GameField.IsValide(goal_row, goal_col);
-        ChessFigure FigureToMove = GameField.GetFigure(start_row, start_col);
+        ChessFigure figureToMove = GameField.GetFigure(start_row, start_col);
 
-        if(FigureToMove.PieceColor != CurrentTurn) throw new ArgumentException("Wrong PieceColor! Pick your own pieces to move!");
+        if (figureToMove == null)
+        {
+            throw new ArgumentException("An dieser Position steht keine Figur!");
+        }
 
-        if(!FigureToMove.GetAvailableMoves(GameField, start_row, start_col).Contains((goal_row, goal_col))) throw new ArgumentException($"Row: {goal_row}, Col: {goal_col} is not a valide Move!");
+        if(figureToMove.Color != CurrentTurn) throw new ArgumentException("Wrong PieceColor! Pick your own pieces to move!");
+
+        if(!figureToMove.GetAvailableMoves(GameField, start_row, start_col).Contains((goal_row, goal_col))) throw new ArgumentException($"Row: {goal_row}, Col: {goal_col} is not a valide Move!");
 
         GameField.Move(start_row, start_col, goal_row, goal_col);
         SwitchCurrentPlayer();
@@ -37,7 +42,7 @@ public class Game
         Console.WriteLine(GameField);
         while(true)
         {
-            Console.WriteLine($"PlayerColor {(CurrentTurn == ChessFigure.PieceColor.White ? "White" : "Black")}. IT IS YOUR MOVE.");
+            Console.WriteLine($"PlayerColor {(CurrentTurn == ChessFigure.PieceColor.White ? "White" : "Black")}. IT IS YOUR MOVE. Inpu the coordinates of the Piece you want to move (row, col): ");
             var input = Console.ReadLine();
             int row = input[0] - '0';
             int col = input[2] - '0';

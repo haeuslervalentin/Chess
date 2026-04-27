@@ -94,7 +94,7 @@ public class Board
            : char.ToLower(symbol);
     }
 
-    publici bool IsValide(int row, int col)
+    public bool IsValide(int row, int col)
     {
         if(!IsInside(row,col))
         {

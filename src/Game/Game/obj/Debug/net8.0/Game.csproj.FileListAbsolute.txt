@@ -1,0 +1,16 @@
+/config/workspace/Chess/src/Game/Game/bin/Debug/net8.0/Game.deps.json
+/config/workspace/Chess/src/Game/Game/bin/Debug/net8.0/Game.dll
+/config/workspace/Chess/src/Game/Game/bin/Debug/net8.0/Game.pdb
+/config/workspace/Chess/src/Game/Game/bin/Debug/net8.0/Classlib.dll
+/config/workspace/Chess/src/Game/Game/bin/Debug/net8.0/Classlib.pdb
+/config/workspace/Chess/src/Game/Game/obj/Debug/net8.0/Game.csproj.AssemblyReference.cache
+/config/workspace/Chess/src/Game/Game/obj/Debug/net8.0/Game.GeneratedMSBuildEditorConfig.editorconfig
+/config/workspace/Chess/src/Game/Game/obj/Debug/net8.0/Game.AssemblyInfoInputs.cache
+/config/workspace/Chess/src/Game/Game/obj/Debug/net8.0/Game.AssemblyInfo.cs
+/config/workspace/Chess/src/Game/Game/obj/Debug/net8.0/Game.csproj.CoreCompileInputs.cache
+/config/workspace/Chess/src/Game/Game/obj/Debug/net8.0/Game.sourcelink.json
+/config/workspace/Chess/src/Game/Game/obj/Debug/net8.0/Game.csproj.CopyComplete
+/config/workspace/Chess/src/Game/Game/obj/Debug/net8.0/Game.dll
+/config/workspace/Chess/src/Game/Game/obj/Debug/net8.0/refint/Game.dll
+/config/workspace/Chess/src/Game/Game/obj/Debug/net8.0/Game.pdb
+/config/workspace/Chess/src/Game/Game/obj/Debug/net8.0/ref/Game.dll

@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Classlib\Classlib.csproj" />
+    <ProjectReference Include="..\..\src\Game\Game\Game.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -17,3 +17,5 @@
 /config/workspace/Chess/app/Programm/obj/Debug/net8.0/Programm.pdb
 /config/workspace/Chess/app/Programm/obj/Debug/net8.0/Programm.genruntimeconfig.cache
 /config/workspace/Chess/app/Programm/obj/Debug/net8.0/ref/Programm.dll
+/config/workspace/Chess/app/Programm/bin/Debug/net8.0/Game.dll
+/config/workspace/Chess/app/Programm/bin/Debug/net8.0/Game.pdb

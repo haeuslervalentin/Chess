@@ -146,31 +146,19 @@ public class Board
             sb.AppendLine("  +---+---+---+---+---+---+---+---+");
             for (int j = 0; j < 8; j++)
             {
-
                 char symbol;
 
                 if (moves.Contains((i, j)))
-
                 {
-
                     symbol = '+';
-
                 }
-
                 else
-
                 {
-
                     symbol = getSymbol(board[i, j], (i + j) % 2 != 0);
-
                 }
-
                 sb.Append($" | {symbol}");
-
             }
-
             sb.AppendLine(" |");
-
         }
         sb.AppendLine("  +---+---+---+---+---+---+---+---+");
         return sb.ToString();

@@ -126,3 +126,110 @@ Chess/
 ├── Board.cs
 └── Game.cs
 ```
+
+
+# 🧠 Chess Engine – To-Do Liste
+
+## ✅ 1. Zug-System (Turn Handling)
+- [ ] `CurrentTurn` Variable einführen
+  - Speichert, ob Weiß oder Schwarz am Zug ist
+- [ ] Im `Move()` prüfen:
+  - Spieler darf nur eigene Figuren bewegen
+- [ ] Nach erfolgreichem Zug:
+  - Turn wechseln
+
+---
+
+## ♟️ 2. Pawn verbessern
+- [ ] 2-Felder Startzug implementieren
+  - Nur wenn `isMoved == false`
+  - Beide Felder müssen frei sein
+- [ ] Bug fixen (Bounds-Check)
+  - Aktuell bricht Funktion zu früh ab (`return moves`)
+- [ ] Diagonales Schlagen korrekt behandeln
+- [ ] (Optional) En Passant implementieren
+- [ ] (Optional) Promotion hinzufügen
+  - Bauer wird zu Dame, Turm, Läufer oder Springer
+
+---
+
+## ⚠️ 3. Move-Validierung verbessern
+- [ ] Ungültige Züge abfangen
+  - Exception werfen statt „nichts tun“
+- [ ] Prüfen:
+  - Zielposition im `availableMoves` enthalten?
+
+---
+
+## 👑 4. König absichern (Check verhindern)
+- [ ] Methode erstellen:
+  - `IsFieldUnderAttack(row, col, color)`
+- [ ] König darf NICHT:
+  - auf bedrohte Felder ziehen
+- [ ] Vor jedem Zug prüfen:
+  - Führt der Zug zu eigenem Schach?
+
+---
+
+## 🔍 5. Check erkennen
+- [ ] Methode:
+  - `IsKingInCheck(color)`
+- [ ] Ablauf:
+  - König finden
+  - Alle gegnerischen Züge berechnen
+  - Prüfen, ob König angegriffen wird
+
+---
+
+## ☠️ 6. Schachmatt erkennen
+- [ ] Wenn König im Schach ist:
+  - Prüfen, ob irgendein Zug das verhindert
+- [ ] Falls kein legaler Zug möglich:
+  - → Schachmatt
+
+---
+
+## 🏰 7. Rochade (Castling)
+- [ ] Bedingungen prüfen:
+  - König & Turm haben sich nicht bewegt
+  - Felder dazwischen sind frei
+  - König steht nicht im Schach
+  - König läuft nicht durch bedrohte Felder
+- [ ] Speziellen Move implementieren
+
+---
+
+## 🧱 8. Architektur verbessern
+- [ ] Neue Klasse `Game` erstellen
+  - Verwaltet:
+    - Turn
+    - Regeln
+    - Spielstatus
+- [ ] `Board` nur für Zustand verwenden
+
+---
+
+## 🧪 9. Debugging & Anzeige
+- [ ] Brett mit Koordinaten anzeigen (A–H, 1–8)
+- [ ] Züge visuell markieren (hast du schon 👍)
+- [ ] Eingabe-System bauen (z.B. "e2 e4")
+
+---
+
+## 🎯 Bonus Features (Optional)
+- [ ] Remis-Regeln (Stalemate, 50-Züge-Regel)
+- [ ] Undo/Redo Funktion
+- [ ] Spiel speichern/laden
+- [ ] Einfache KI (Random oder Minimax)
+
+---
+
+## 🚀 Empfohlene Reihenfolge
+1. Turn-System
+2. Pawn fixen
+3. Move-Validierung
+4. Check erkennen
+5. King Safety
+6. Schachmatt
+7. Rochade
+8. Bonus Features

@@ -233,3 +233,10 @@ Chess/
 6. Schachmatt
 7. Rochade
 8. Bonus Features
+
+
+
+TODO
+Bei move input exception handling 
+schwarze figuren werden nicht gut erkannt
+wichtig man sollte keine figur auswählen können die keine available moves 

@@ -28,14 +28,15 @@ public class Board
     public override string ToString()
     {
         StringBuilder sb = new();
+        sb.AppendLine("   0---1---2---3---4---5---6---7---");
     
         for(int i = 0; i < 8; i++)
         {
-            sb.AppendLine("  +---+---+---+---+---+---+---+---+");
+            sb.AppendLine(" +---+---+---+---+---+---+---+---+");
             for(int j = 0; j < 8; j++)
             {
                 char symbol = getSymbol(board[i,j], (i+j) %2 != 0);
-                sb.Append($" | {symbol}");   
+                sb.Append($" {(j == 0 ? i : "")}| {symbol}");   
             }
             sb.AppendLine(" |");
         }
@@ -140,6 +141,7 @@ public class Board
     public string ShowMoves(int currentPosRow, int currentPosCol, List<(int row, int col)> moves)
     {
         StringBuilder sb = new();
+        sb.AppendLine("   0---1---2---3---4---5---6---7---");
 
         for (int i = 0; i < 8; i++)
         {
@@ -156,7 +158,7 @@ public class Board
                 {
                     symbol = getSymbol(board[i, j], (i + j) % 2 != 0);
                 }
-                sb.Append($" | {symbol}");
+                sb.Append($" {(j == 0 ? i : "")}| {symbol}");
             }
             sb.AppendLine(" |");
         }

@@ -44,8 +44,20 @@ public class GameClass
         {
             Console.WriteLine($"PlayerColor {(CurrentTurn == ChessFigure.PieceColor.White ? "White" : "Black")}. IT IS YOUR MOVE. Inpu the coordinates of the Piece you want to move (row, col): ");
             var input = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(input) || input.Length < 3) 
+            {
+                Console.WriteLine("Invalid input format! Use 'row,col'.");
+                continue;
+            }
+
             int row = input[0] - '0';
             int col = input[2] - '0';
+
+            if (!GameField.IsInside(row, col))
+            {
+                Console.WriteLine("Coordinates out of bounds!");
+                continue;
+            }
 
             var figure = GameField.GetFigure(row, col);
             if (figure == null || figure.Color != CurrentTurn) {
@@ -57,6 +69,11 @@ public class GameClass
             Console.WriteLine("Where do you want to move: (row, col)");
 
             input = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(input) || input.Length < 3) 
+            {
+                Console.WriteLine("Invalid input format! Use 'row,col'.");
+                continue;
+            }
 
             int goal_row = input[0] - '0';
             int goal_col = input[2] - '0';

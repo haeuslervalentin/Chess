@@ -445,6 +445,7 @@ public class Pawn : ChessFigure
 
         
         int targetRow = currentRow + direction;
+        int targetRowFirstMove = currentRow + direction + (isMoved == false ? direction : 0);
         int targetCol = currentCol;
 
         // 2 steps with isMoved ??
@@ -456,11 +457,15 @@ public class Pawn : ChessFigure
         // testso
 
         var targetPiece = board.GetFigure(targetRow, targetCol);
+        var targetPieceFirstMove = board.GetFigure(targetRowFirstMove, targetCol);
 
         if(targetPiece == null)
         {
             moves.Add((targetRow, targetCol));
         }
+        
+        if(targetPieceFirstMove == null) moves.Add((targetRowFirstMove, targetCol));
+
         if(!board.IsInside(targetRow, targetCol-1)) return moves;
         if(!board.IsInside(targetRow, targetCol+1)) return moves;
         if(board.GetFigure(targetRow,targetCol-1) != null && board.GetFigure(targetRow,targetCol-1).Color != this.Color) moves.Add((targetRow, targetCol-1));

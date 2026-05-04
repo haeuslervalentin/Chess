@@ -87,7 +87,9 @@
 /config/workspace/Chess/test/Classlib.Test/bin/Debug/net8.0/zh-Hant/Microsoft.TestPlatform.CrossPlatEngine.resources.dll
 /config/workspace/Chess/test/Classlib.Test/bin/Debug/net8.0/zh-Hant/Microsoft.VisualStudio.TestPlatform.Common.resources.dll
 /config/workspace/Chess/test/Classlib.Test/bin/Debug/net8.0/Classlib.dll
+/config/workspace/Chess/test/Classlib.Test/bin/Debug/net8.0/Game.dll
 /config/workspace/Chess/test/Classlib.Test/bin/Debug/net8.0/Classlib.pdb
+/config/workspace/Chess/test/Classlib.Test/bin/Debug/net8.0/Game.pdb
 /config/workspace/Chess/test/Classlib.Test/obj/Debug/net8.0/Classlib.Test.csproj.AssemblyReference.cache
 /config/workspace/Chess/test/Classlib.Test/obj/Debug/net8.0/Classlib.Test.GeneratedMSBuildEditorConfig.editorconfig
 /config/workspace/Chess/test/Classlib.Test/obj/Debug/net8.0/Classlib.Test.AssemblyInfoInputs.cache

@@ -1722,6 +1722,19 @@
         "runtime": {
           "bin/placeholder/Classlib.dll": {}
         }
+      },
+      "Game/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Classlib": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Game.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Game.dll": {}
+        }
       }
     }
   },
@@ -5522,11 +5535,17 @@
       "type": "project",
       "path": "../../src/Classlib/Classlib.csproj",
       "msbuildProject": "../../src/Classlib/Classlib.csproj"
+    },
+    "Game/1.0.0": {
+      "type": "project",
+      "path": "../../src/Game/Game.csproj",
+      "msbuildProject": "../../src/Game/Game.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "Classlib >= 1.0.0",
+      "Game >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 17.6.0",
       "coverlet.collector >= 6.0.0",
       "xunit >= 2.4.2",
@@ -5560,6 +5579,9 @@
           "projectReferences": {
             "/config/workspace/Chess/src/Classlib/Classlib.csproj": {
               "projectPath": "/config/workspace/Chess/src/Classlib/Classlib.csproj"
+            },
+            "/config/workspace/Chess/src/Game/Game.csproj": {
+              "projectPath": "/config/workspace/Chess/src/Game/Game.csproj"
             }
           }
         }

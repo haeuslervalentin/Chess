@@ -29,8 +29,8 @@
               "/config/workspace/Chess/src/Classlib/Classlib.csproj": {
                 "projectPath": "/config/workspace/Chess/src/Classlib/Classlib.csproj"
               },
-              "/config/workspace/Chess/src/Game/Game/Game.csproj": {
-                "projectPath": "/config/workspace/Chess/src/Game/Game/Game.csproj"
+              "/config/workspace/Chess/src/Game/Game.csproj": {
+                "projectPath": "/config/workspace/Chess/src/Game/Game.csproj"
               }
             }
           }
@@ -117,14 +117,14 @@
         }
       }
     },
-    "/config/workspace/Chess/src/Game/Game/Game.csproj": {
+    "/config/workspace/Chess/src/Game/Game.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/config/workspace/Chess/src/Game/Game/Game.csproj",
+        "projectUniqueName": "/config/workspace/Chess/src/Game/Game.csproj",
         "projectName": "Game",
-        "projectPath": "/config/workspace/Chess/src/Game/Game/Game.csproj",
+        "projectPath": "/config/workspace/Chess/src/Game/Game.csproj",
         "packagesPath": "/config/.nuget/packages/",
-        "outputPath": "/config/workspace/Chess/src/Game/Game/obj/",
+        "outputPath": "/config/workspace/Chess/src/Game/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/config/.nuget/NuGet/NuGet.Config"

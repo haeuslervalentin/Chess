@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "/zhVVN+HFkY70D/Kh6rCJ3iDvBDh24UUKr8nSkhnpoxqUVUW9hbPc3t0TpGb6+ofN2vWEC4vCqdlvWhi8C/5Uw==",
+  "dgSpecHash": "x4uLE56BdgV7dGl4pEus8Tqn8I1woqe8sciFhdTkSkPZaj+mG+5OJyz0k2R7Y0DDnqQwoQZU5TrpzGGqZfM/Qg==",
   "success": true,
   "projectFilePath": "/config/workspace/Chess/test/Classlib.Test/Classlib.Test.csproj",
   "expectedPackageFiles": [

@@ -35,8 +35,8 @@
     },
     "Game/1.0.0": {
       "type": "project",
-      "path": "../../src/Game/Game/Game.csproj",
-      "msbuildProject": "../../src/Game/Game/Game.csproj"
+      "path": "../../src/Game/Game.csproj",
+      "msbuildProject": "../../src/Game/Game.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -73,8 +73,8 @@
             "/config/workspace/Chess/src/Classlib/Classlib.csproj": {
               "projectPath": "/config/workspace/Chess/src/Classlib/Classlib.csproj"
             },
-            "/config/workspace/Chess/src/Game/Game/Game.csproj": {
-              "projectPath": "/config/workspace/Chess/src/Game/Game/Game.csproj"
+            "/config/workspace/Chess/src/Game/Game.csproj": {
+              "projectPath": "/config/workspace/Chess/src/Game/Game.csproj"
             }
           }
         }

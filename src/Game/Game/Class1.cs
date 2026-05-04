@@ -1,4 +1,6 @@
 ﻿namespace Game;
+
+using System.Reflection;
 using Classlib;
 
 public class GameClass
@@ -36,17 +38,20 @@ public class GameClass
         SwitchCurrentPlayer();
     }
 
+
     public void Start()
     {
         Console.WriteLine("--- Chess Game ---");
         Console.WriteLine(GameField);
         while(true)
         {
-            Console.WriteLine($"PlayerColor {(CurrentTurn == ChessFigure.PieceColor.White ? "White" : "Black")}. IT IS YOUR MOVE. Inpu the coordinates of the Piece you want to move (row, col): ");
+            Console.WriteLine($"\nPlayer: {CurrentTurn}. IT IS YOUR MOVE.");
+            Console.Write("Input coordinates of piece (row, col): ");
+            
             var input = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(input) || input.Length < 3) 
             {
-                Console.WriteLine("Invalid input format! Use 'row,col'.");
+                Console.WriteLine("Invalid format! Use 'row,col'.");
                 continue;
             }
 
@@ -55,31 +60,50 @@ public class GameClass
 
             if (!GameField.IsInside(row, col))
             {
-                Console.WriteLine("Coordinates out of bounds!");
+                Console.WriteLine("Outside of board!");
                 continue;
             }
 
             var figure = GameField.GetFigure(row, col);
-            if (figure == null || figure.Color != CurrentTurn) {
-                Console.WriteLine("Keine eigene Figur an dieser Stelle!");
-                continue;
-            }
-
-            Console.WriteLine($"{GameField.ShowMoves(row, col, GameField.GetFigure(row, col).GetAvailableMoves(GameField, row, col))}");
-            Console.WriteLine("Where do you want to move: (row, col)");
-
-            input = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(input) || input.Length < 3) 
+            if (figure == null || figure.Color != CurrentTurn) 
             {
-                Console.WriteLine("Invalid input format! Use 'row,col'.");
+                Console.WriteLine("That's not your piece!");
                 continue;
             }
+
+            var moves = figure.GetAvailableMoves(GameField, row, col);
+            if(moves.Count == 0)
+            {
+                Console.WriteLine("This figure cannot move. Choose another one.");
+                continue;
+            }
+
+            Console.WriteLine(GameField.ShowMoves(row, col, moves));
+
+            Console.Write("Move to (row, col): ");
+            input = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(input) || input.Length < 3) continue;
 
             int goal_row = input[0] - '0';
             int goal_col = input[2] - '0';
 
-            TryMove(row, col, goal_row, goal_col);
+            try
+            {
+                TryMove(row, col, goal_row, goal_col);
+                Console.Clear(); 
+                Console.WriteLine("Move successful!");
+            } 
+            catch (ArgumentException ex) 
+            {
+                Console.WriteLine($"Invalid Move: {ex.Message}");
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine($"Technical Error: {ex.Message}");
+            }
+
             Console.WriteLine(GameField);
         }
     }
 }
+

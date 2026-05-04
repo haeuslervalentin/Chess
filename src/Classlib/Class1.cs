@@ -141,28 +141,38 @@ public class Board
     public string ShowMoves(int currentPosRow, int currentPosCol, List<(int row, int col)> moves)
     {
         StringBuilder sb = new();
-        sb.AppendLine("   0---1---2---3---4---5---6---7---");
+        sb.AppendLine("     0   1   2   3   4   5   6   7  "); 
+        sb.AppendLine("   +---+---+---+---+---+---+---+---+");
 
         for (int i = 0; i < 8; i++)
         {
-            sb.AppendLine("  +---+---+---+---+---+---+---+---+");
+            sb.Append($"{i}  |"); 
             for (int j = 0; j < 8; j++)
             {
-                char symbol;
-
+                var targetPiece = board[i, j];
+                char symbol = getSymbol(targetPiece, (i + j) % 2 != 0);
+                
                 if (moves.Contains((i, j)))
                 {
-                    symbol = '+';
+                    if (targetPiece == null)
+                    {
+                        sb.Append("(+)"); 
+                    }
+                    else
+                    {
+                        sb.Append($"({symbol})");
+                    }
                 }
                 else
                 {
-                    symbol = getSymbol(board[i, j], (i + j) % 2 != 0);
+                    sb.Append($" {symbol} ");
                 }
-                sb.Append($" {(j == 0 ? i : "")}| {symbol}");
+                
+                sb.Append("|"); 
             }
-            sb.AppendLine(" |");
+            sb.AppendLine();
+            sb.AppendLine("   +---+---+---+---+---+---+---+---+");
         }
-        sb.AppendLine("  +---+---+---+---+---+---+---+---+");
         return sb.ToString();
     }
 
@@ -445,7 +455,6 @@ public class Pawn : ChessFigure
 
         
         int targetRow = currentRow + direction;
-        int targetRowFirstMove = currentRow + direction + (isMoved == false ? direction : 0);
         int targetCol = currentCol;
 
         // 2 steps with isMoved ??
@@ -457,19 +466,35 @@ public class Pawn : ChessFigure
         // testso
 
         var targetPiece = board.GetFigure(targetRow, targetCol);
-        var targetPieceFirstMove = board.GetFigure(targetRowFirstMove, targetCol);
 
         if(targetPiece == null)
         {
             moves.Add((targetRow, targetCol));
         }
-        
-        if(targetPieceFirstMove == null) moves.Add((targetRowFirstMove, targetCol));
 
-        if(!board.IsInside(targetRow, targetCol-1)) return moves;
-        if(!board.IsInside(targetRow, targetCol+1)) return moves;
-        if(board.GetFigure(targetRow,targetCol-1) != null && board.GetFigure(targetRow,targetCol-1).Color != this.Color) moves.Add((targetRow, targetCol-1));
-        if(board.GetFigure(targetRow,targetCol+1) != null && board.GetFigure(targetRow, targetCol+1).Color != this.Color) moves.Add((targetRow, targetCol+1));
+        if (!isMoved)
+        {
+            int doubleRow = currentRow + (2 * direction);
+            if (board.IsInside(doubleRow, currentCol) && board.GetFigure(doubleRow, currentCol) == null)
+            {
+                moves.Add((doubleRow, currentCol));
+            }
+        }
+        int[] sideOffsets = {1, -1};
+        foreach(int offset in sideOffsets)
+        {
+            int _targetCol = currentCol + offset; 
+    
+            if (board.IsInside(targetRow, _targetCol)) 
+            {
+                var _targetPiece = board.GetFigure(targetRow, _targetCol);
+                
+                if (_targetPiece != null && _targetPiece.Color != this.Color)
+                {
+                    moves.Add((targetRow, _targetCol));
+                }
+            }
+        }
     
         return moves;
     }

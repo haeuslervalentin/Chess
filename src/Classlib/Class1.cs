@@ -475,7 +475,7 @@ public class Pawn : ChessFigure
         if (!isMoved)
         {
             int doubleRow = currentRow + (2 * direction);
-            if (board.IsInside(doubleRow, currentCol) && board.GetFigure(doubleRow, currentCol) == null)
+            if (board.GetFigure(targetRow, currentCol) == null && board.IsInside(doubleRow, currentCol) && board.GetFigure(doubleRow, currentCol) == null)
             {
                 moves.Add((doubleRow, currentCol));
             }
